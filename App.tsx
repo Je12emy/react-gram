@@ -1,21 +1,24 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import SwitchNavigator from "./src/navigation/LoginNavigator";
+import thunkMiddleware from "redux-thunk";
+import reducers from "./src/reducers/index";
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware } from "redux";
+import { ThemeProvider } from "react-native-elements";
+
+const middleware = applyMiddleware(thunkMiddleware);
+const store = createStore(reducers, middleware);
+
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Provider store={store}>
+      <SafeAreaProvider>
+        <ThemeProvider>
+          <SwitchNavigator />
+        </ThemeProvider>
+      </SafeAreaProvider>
+    </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
